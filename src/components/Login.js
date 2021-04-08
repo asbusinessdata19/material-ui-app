@@ -23,7 +23,7 @@ class Login extends React.Component {
     }
     render() {
         return (
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight:'100vh' }}>
                 <Card variant="outlined" style={{ margin: 10, width: 400, backgroundColor: '#e6eeff' }}>
                     <CardHeader title='Would You Rather App Login' titleTypographyProps={{ color: 'primary' }}></CardHeader>
                     <CardContent >

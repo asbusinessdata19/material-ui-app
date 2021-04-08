@@ -8,22 +8,21 @@ import NewQuestion from './NewQuestion'
 import LeaderBoard from './LeaderBoard'
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux'
-import {handleGetUsers} from '../actions/users'
-import {handleGetQuestions} from '../actions/questions'
+import { handleGetUsers } from '../actions/users'
+import { handleGetQuestions } from '../actions/questions'
 import Squestion from './Squestion';
 
 class App extends React.Component {
-  componentDidMount(){
+  componentDidMount() {
     this.props.dispatch(handleGetUsers());
     this.props.dispatch(handleGetQuestions());
   }
   render() {
-    return (
-      <div>
-        {
-          (this.props.authedUser != null) ? <NavBar authedUser={this.props.authedUser} dispatch={this.props.dispatch} /> : ''
-        }
+    return (      
         <div className="App">
+          {
+            (this.props.authedUser != null) ? <NavBar authedUser={this.props.authedUser} dispatch={this.props.dispatch} /> : ''
+          }
           <Route path="/login" >
             {this.props.authedUser != null ? <Redirect to="/" /> : <Login />}
           </Route>
@@ -36,10 +35,10 @@ class App extends React.Component {
           <Route exact path="/Leaderboard" >
             {this.props.authedUser != null ? <LeaderBoard /> : <Redirect to="/login" />}
           </Route>
-          <Route  path="/question/:id" render={(props)=>{            
-            return this.props.authedUser != null ? <Squestion props={props}/> : <Redirect to="/login" />}}/>                    
-        </div>
-      </div>
+          <Route path="/question/:id" render={(props) => {
+            return this.props.authedUser != null ? <Squestion props={props} /> : <Redirect to="/login" />
+          }} />
+        </div>      
     );
   }
 }

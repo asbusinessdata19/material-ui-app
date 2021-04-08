@@ -14,7 +14,7 @@ const store = createStore(reducer,compose(middleware , window.__REDUX_DEVTOOLS_E
 ReactDOM.render(
   <BrowserRouter>
     <Provider store={store}>
-      <App />
+      <App  />
     </Provider>
   </BrowserRouter>,
   document.getElementById('root')

@@ -1,6 +1,18 @@
 .App {
-    margin-top: 100;
+    /* margin-top: 100; */
     text-align: center;
+    background-color: skyblue;
+    min-height: 100vh;
+    /* min-height: 100% */
+}
+
+#root {
+    min-height: 100%;
+    background-color: silver;
+    /* display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: stretch; */
 }
 
 .App-logo {
