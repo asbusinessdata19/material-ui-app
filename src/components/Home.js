@@ -10,14 +10,31 @@ class Home extends React.Component {
         super(props);
         this.filterQuestions = this.filterQuestions.bind(this);
         this.state = {
-            isAnswered: true,
-            questionToShow: this.filterQuestions(true)
+            isAnswered: false,
+            questionToShow: this.filterQuestions(false)
         };
     }
     filterQuestions = function (isAnswered) {
         let currentUser = this.props.authedUser.id;
         let result = {};
-        for (let questionId of Object.keys(this.props.questions)) {
+        let questionsArray = [];
+        // construct questions array
+        for(let questionId of Object.keys(this.props.questions)){
+            questionsArray.push({question:questionId , createTime:this.props.questions[questionId].timestamp});
+        }
+        // sorting the questions Desc by createTime
+        let qs = questionsArray.sort(function(a,b){
+            if(a.createTime>b.createTime){
+                return -1;
+            }
+            if(a.createTime<b.createTime){
+                return 1;
+            }
+            return 0
+        });
+
+        for (let q of qs) {
+            let questionId = q.question;
             if (this.props.questions[questionId].optionOne.votes.includes(currentUser) || this.props.questions[questionId].optionTwo.votes.includes(currentUser)) {
                 if (isAnswered) {
                     result[questionId] = this.props.questions[questionId];
@@ -25,14 +42,19 @@ class Home extends React.Component {
             } else if (!isAnswered) {
                 result[questionId] = this.props.questions[questionId];
             }
-        }
-        console.log(result);
+        }        
         return result;
     }
     render() {
         return (
             <div>
                 <ButtonGroup disableElevation variant="contained" style={{ marginTop: 10, marginRight: 10 }}>
+                    <Button color={this.state.isAnswered ? 'primary' : 'secondary'} onClick={() => {
+                        this.setState(() => ({
+                            isAnswered: false,
+                            questionToShow: this.filterQuestions(false)
+                        }));
+                    }}>Unanswerd Questions</Button>
                     <Button color={this.state.isAnswered ? 'secondary' : 'primary'} onClick={() => {
                         this.setState(() => ({
                             isAnswered: true,
@@ -41,25 +63,20 @@ class Home extends React.Component {
                         ;
 
                     }}>Answerd Questions</Button>
-                    <Button color={this.state.isAnswered ? 'primary' : 'secondary'} onClick={() => {
-                        this.setState(() => ({
-                            isAnswered: false,
-                            questionToShow: this.filterQuestions(false)
-                        }));
-                    }}>Not Answerd Questions</Button>
+
 
                 </ButtonGroup>
                 <Grid container spacing={1}>
-                {Object.keys(this.state.questionToShow).map((questionId) => (                
-                            <Grid key={questionId} item xs={12}>
-                                <div style={{display:'flex', justifyContent:'center'}} >
+                    {Object.keys(this.state.questionToShow).map((questionId) => (
+                        <Grid key={questionId} item xs={12}>
+                            <div style={{ display: 'flex', justifyContent: 'center' }} >
                                 <Question question={this.state.questionToShow[questionId]} questionAvatar={this.props.users[this.state.questionToShow[questionId].author].avatarURL} viewType='LIST' isAnswered={this.state.isAnswered} />
-                                </div>
-                            </Grid>                                            
-                ))
-                }
+                            </div>
+                        </Grid>
+                    ))
+                    }
                 </Grid>
-                
+
             </div>
         )
     }
@@ -69,7 +86,7 @@ function mapStateToProps(state, props) {
     return {
         questions: state.questions,
         users: state.users,
-        authedUser:state.authedUser
+        authedUser: state.authedUser
     }
 }
 

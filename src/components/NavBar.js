@@ -26,12 +26,11 @@ function NavBar(props) {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Link to="/"><Typography style={{color:"#ffffff",marginRight: 10}}> Home </Typography></Link>
-          <Link to="/question/1"><Typography style={{color:"#ffffff",marginRight: 10}}> New Question </Typography></Link>
-          <Link to="/Leaderboard"><Typography style={{color:"#ffffff",marginRight: 10}}> Leader Board </Typography></Link>          
-          <Typography variant="h6" className={classes.title}></Typography>
-          {/* <Avatar alt="profile picture" src={'/images/' + props.authedUser.id + '.jpg'} /> */}
-          <Avatar alt="profile picture" src={props.authedUser.avatarURL} />          
+          <Typography style={{ marginRight: 10 }}><Link to="/" style={{ color: 'inherit', textDecoration: 'inherit' }}> Home </Link></Typography>
+          <Typography style={{ marginRight: 10 }}><Link to="/add" style={{ color: 'inherit', textDecoration: 'inherit' }}> New Question </Link></Typography>
+          <Typography style={{ marginRight: 10 }}><Link to="/leaderboard" style={{ color: 'inherit', textDecoration: 'inherit' }}> Leader Board </Link></Typography>
+          <Typography variant="h6" className={classes.title}></Typography>          
+          <Avatar alt="profile picture" src={props.authedUser.avatarURL} />
           <Typography style={{ marginRight: 5, marginLeft: 5 }}>  {props.authedUser.name}</Typography>
           <Button color="inherit" onClick={() => props.dispatch(logout())}>Logout</Button>
         </Toolbar>
